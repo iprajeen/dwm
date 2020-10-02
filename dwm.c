@@ -144,6 +144,7 @@ typedef struct {
 } Rule;
 
 /* function declarations */
+static void applypertagviews(void);
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
@@ -287,6 +288,20 @@ struct Pertag {
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
 /* function implementations */
+void
+applypertagviews(void)
+{
+	/* apply settings for the given view */
+	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
+        selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
+        selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
+        selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
+        selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
+
+        if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
+                togglebar(NULL);
+}
+
 void
 applyrules(Client *c)
 {
@@ -1782,15 +1797,7 @@ toggleview(const Arg *arg)
 			selmon->pertag->curtag = i + 1;
 		}
 
-		/* apply settings for this view */
-		selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
-		selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
-		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
-		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
-		selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
-		if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
-			togglebar(NULL);
+		applypertagviews();
 
 		focus(NULL);
 		arrange(selmon);
@@ -2108,15 +2115,8 @@ view(const Arg *arg)
 		selmon->pertag->curtag = tmptag;
 	}
 
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
-	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
-	selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
-	selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
-	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
+	applypertagviews();
 
-	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
-		togglebar(NULL);
-	
 	focus(NULL);
 	arrange(selmon);
 }
