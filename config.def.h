@@ -78,9 +78,9 @@ static const char *termcmd[]  = { "st", NULL };
 #define FXK_ARV	0x1008FF13   /* Volume control up          */
 
 /* volume controls (pulseaudio) */
-static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%" };
-static const char *mutevol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle" };
-static const char *upvol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%" };
+static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
+static const char *mutevol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
+static const char *upvol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -133,9 +133,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ 0,                            FXK_ALV,  spawn,           { .v = downvol } },
-	{ 0,                            FXK_AM,   spawn,           { .v = mutevol } },
-	{ 0,                            FXK_ARV,  spawn,           { .v = upvol   } },
+	{ 0,                            FXK_ALV,   spawn,           { .v = downvol } },
+	{ 0,                            FXK_AM,    spawn,           { .v = mutevol } },
+	{ 0,                            FXK_ARV,   spawn,           { .v = upvol   } },
 };
 
 /* button definitions */

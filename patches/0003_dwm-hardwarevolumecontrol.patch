@@ -1,0 +1,31 @@
+diff --git a/config.def.h b/config.def.h
+index 877fa9a..87100cf 100755
+--- a/config.def.h
++++ b/config.def.h
+@@ -72,6 +72,16 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn()
+ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+ static const char *termcmd[]  = { "st", NULL };
+ 
++/* volume control hardware keys */
++#define FXK_ALV	0x1008FF11   /* Volume control down        */
++#define FXK_AM	0x1008FF12   /* Mute sound from the system */
++#define FXK_ARV	0x1008FF13   /* Volume control up          */
++
++/* volume controls (pulseaudio) */
++static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
++static const char *mutevol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
++static const char *upvol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
++
+ static Key keys[] = {
+ 	/* modifier                     key        function        argument */
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+@@ -123,6 +133,9 @@ static Key keys[] = {
+ 	TAGKEYS(                        XK_8,                      7)
+ 	TAGKEYS(                        XK_9,                      8)
+ 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
++	{ 0,                            FXK_ALV,   spawn,           { .v = downvol } },
++	{ 0,                            FXK_AM,    spawn,           { .v = mutevol } },
++	{ 0,                            FXK_ARV,   spawn,           { .v = upvol   } },
+ };
+ 
+ /* button definitions */
