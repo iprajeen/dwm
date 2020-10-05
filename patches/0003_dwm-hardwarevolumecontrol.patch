@@ -23,9 +23,9 @@ index 877fa9a..87100cf 100755
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)
  	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-+	{ 0,                            FXK_ALV,   spawn,           { .v = downvol } },
-+	{ 0,                            FXK_AM,    spawn,           { .v = mutevol } },
-+	{ 0,                            FXK_ARV,   spawn,           { .v = upvol   } },
++	{ 0,                            FXK_ALV,   spawn,          { .v = downvol } },
++	{ 0,                            FXK_AM,    spawn,          { .v = mutevol } },
++	{ 0,                            FXK_ARV,   spawn,          { .v = upvol   } },
  };
  
  /* button definitions */
